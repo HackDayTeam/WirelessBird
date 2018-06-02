@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GameBird</string>
+    <string name="get_ready">Get Ready!</string>
+    <string name="press_start">press start</string>
+</resources>
