@@ -50,8 +50,6 @@ public class GameBirdActivity extends Activity {
                     //msg.obj.toString()
                     break;
             }
- l,k i,j./:8u88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888uuuj
-
         }
     };
 
