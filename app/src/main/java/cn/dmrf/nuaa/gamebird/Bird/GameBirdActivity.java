@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import cn.dmrf.nuaa.gamebird.Gesture.GlobalBean;
 import cn.dmrf.nuaa.gamebird.Gesture.TensorFlowUtil;
+import cn.dmrf.nuaa.gamebird.MindWave.SignalDetect;
 import cn.dmrf.nuaa.gamebird.R;
 
 public class GameBirdActivity extends Activity {
@@ -26,6 +27,7 @@ public class GameBirdActivity extends Activity {
     private GameBirdSurfaceView gameBirdSurfaceView;
     public GlobalBean globalBean;
     private SoundPlayer soundPlayer;
+
 
 
 
@@ -97,6 +99,7 @@ public class GameBirdActivity extends Activity {
         soundPlayer=new SoundPlayer(GameBirdActivity.this);
 
         //game
+
         gameView = (LinearLayout) this.findViewById(R.id.game_view);
         gameBirdSurfaceView = new GameBirdSurfaceView(this, mHandler,soundPlayer);
         globalBean.gameBirdSurfaceView=gameBirdSurfaceView;

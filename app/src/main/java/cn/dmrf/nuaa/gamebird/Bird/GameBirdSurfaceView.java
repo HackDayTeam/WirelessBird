@@ -28,8 +28,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Toast;
 
 import cn.dmrf.nuaa.gamebird.Gesture.GlobalBean;
+import cn.dmrf.nuaa.gamebird.MainActivity;
+import cn.dmrf.nuaa.gamebird.MindWave.SignalDetect;
 import cn.dmrf.nuaa.gamebird.R;
 
 import cn.dmrf.nuaa.gamebird.R;
@@ -86,11 +89,18 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 
     private SoundPlayer soundPlayer;
 
+    private Context context;
+
     public GameBirdSurfaceView(Context context, Handler mHandler, SoundPlayer soundPlayer) {
 
 
         super(context);
+        this.context=context;
+
         this.mHandler = mHandler;
+
+
+
         sfh = this.getHolder();
         sfh.addCallback(this);
         paint = new Paint();
@@ -122,8 +132,6 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
         th = new Thread(this);
         th.start();
     }
-
-
 
     private void initGame() {
 
@@ -215,7 +223,9 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 //                canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
 //                //drawBird();
 //                //level
-                canvas.drawText(String.valueOf(GlobalBean.res), level[0], level[1], paint);
+             //canvas.drawText(String.valueOf(GlobalBean.res), level[0], level[1], paint);
+                canvas.drawText(String.valueOf(LoadingActivity.attention), level[0], level[1], paint);
+                canvas.drawText(String.valueOf(soundPlayer.getSpeed()), level[0], level[1]+50, paint);
 
                 //canvas.drawText(String.valueOf(GameBirdActivity.predis1), level[0], level[1], paint);
 
@@ -315,7 +325,13 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                     mHandler.sendMessage(msg1);
 
                     gameState = GAMEING;
-                    soundPlayer.playSound();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            soundPlayer.playSound();
+                        }
+                    }).start();
+
                     //globalBean.BeginChangeWorld();
                     try {
                         Thread.sleep((long) (1000));
@@ -381,6 +397,28 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 break;
             case GAMEING:
 
+
+                switch (LoadingActivity.status) {
+                    case 1:
+                        LoadingActivity.attention = LoadingActivity.sd.getAttention();
+                        if (LoadingActivity.attention>40){
+                            soundPlayer.setSpeed((float) (LoadingActivity.attention*0.02));
+                        }
+
+                        break;
+                    case 2:
+                        Toast.makeText(context, "Unknown Error!", Toast.LENGTH_LONG);
+                        break;
+                    case -1:
+                        Toast.makeText(context, "Unknown Error!", Toast.LENGTH_LONG);
+                        break;
+                    case 0:
+                        LoadingActivity.attention = 0;
+                        break;
+                    default:
+                        break;
+                }
+
                 //bird
                 //bird_v+=bird_a;//
                 //bird[1] += bird_v;//小鸟上升bird_v像素，bird_v可正可负，如果是正的则小鸟向上走，否则小鸟向下走
@@ -418,6 +456,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                         } else if (wall[0] - bird_width <= bird[0] && wall[0] + wall_w + bird_width >= bird[0]
                                 && bird[1] >= wall[1] + wall_h - bird_width) {
                             gameState = GAME_OVER;
+                            soundPlayer.stopSound();
                             Message msg1 = new Message();
                             msg1.what = 0;
                             msg1.obj = "stop";
@@ -441,7 +480,8 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 //new wall
                 move_step += speed;
                 if (move_step > wall_step) {
-
+                    int[] wall = new int[]{screenW, (int) (Math.random() * (floor[1] - 2 * wall_h) + 0.5 * wall_h)};
+                    walls.add(wall);
                     move_step = 0;
                 }
                 break;

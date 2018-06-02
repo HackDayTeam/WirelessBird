@@ -43,6 +43,9 @@ public class LoadingActivity extends Activity {
     public static double predis1 = 0.0;
     private GestureWindow gestureWindow;
 private GlobalBean globalBean;
+    public static int status;
+    public static SignalDetect sd = new SignalDetect();
+    public static int attention=0;
 
 
 
@@ -98,7 +101,8 @@ private GlobalBean globalBean;
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        status = sd.initDevice(LoadingActivity.this);
+        sd.connect();
         gestureWindow=new GestureWindow(0.2f);
 
 

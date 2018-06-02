@@ -15,12 +15,16 @@ import cn.dmrf.nuaa.gamebird.R;
 public class SoundPlayer {
 
     private MediaPlayer mediaPlayer;
-    private float speed = 0.75f;
+    private float speed = 1.f;
 
     @SuppressLint("UseSparseArrays")
     public SoundPlayer(Context context) {
        mediaPlayer= MediaPlayer.create(context, R.raw.bacmic);
 
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -29,4 +33,11 @@ public class SoundPlayer {
         mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
     }
 
+    public void stopSound(){
+        mediaPlayer.stop();
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 }
