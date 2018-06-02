@@ -1,14 +1,19 @@
 package cn.dmrf.nuaa.gamebird.Bird;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.ads.Ad;
@@ -17,10 +22,35 @@ import com.google.ads.AdView;
 import com.google.ads.AdRequest.ErrorCode;
 
 
+import cn.dmrf.nuaa.gamebird.Gesture.GestureUtil;
 import cn.dmrf.nuaa.gamebird.Gesture.VerifyPermission;
 import cn.dmrf.nuaa.gamebird.R;
 
 public class LoadingActivity extends Activity {
+
+    private GestureUtil gestureUtil;
+    private Button btn_play;
+    private Button btn_stop;
+    private TextView tv1;
+    private TextView tv2;
+
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        //设置圆环角度
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    tv1.setText(msg.obj.toString());
+                    break;
+                case 2:
+                    tv2.setText(msg.obj.toString());
+                    break;
+            }
+        }
+    };
 
 
     @Override
@@ -32,12 +62,13 @@ public class LoadingActivity extends Activity {
         }
 
 
-
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.loading);
-
+        //setContentView(R.layout.loading);
+        setContentView(R.layout.gesture_test_layout);
+        GestureTest();
+/*
         final TextView gameStart = (TextView) findViewById(R.id.game_start);
 
         AdView adView = (AdView) findViewById(R.id.adView);
@@ -93,10 +124,9 @@ public class LoadingActivity extends Activity {
 
                 finish();
             }
-        });
+        });*/
 
     }
-
 
 
     private int[] getSettingData() {
@@ -125,5 +155,29 @@ public class LoadingActivity extends Activity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    private void GestureTest() {
+        gestureUtil = new GestureUtil(mHandler);
+        btn_play=findViewById(R.id.btnplayrecord);
+        btn_stop=findViewById(R.id.btnstoprecord);
+        tv1=findViewById(R.id.textView1);
+        tv2=findViewById(R.id.textView2);
+        btn_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gestureUtil.Play();
+            }
+        });
+
+
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gestureUtil.Stop();
+            }
+        });
+
     }
 }
