@@ -5,7 +5,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.Resources;
+
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,6 +16,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+
 import android.os.Handler;
 import android.os.Message;
 import android.util.TypedValue;
@@ -24,6 +26,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
+
+import cn.dmrf.nuaa.gamebird.R;
 
 import cn.dmrf.nuaa.gamebird.R;
 
@@ -70,6 +74,10 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     private Handler mHandler;
 
     private int count = 0;
+
+    private Bitmap birdImg;
+    private float birdImgX;
+    private float birdImgY;
 
     public GameBirdSurfaceView(Context context, Handler mHandler) {
 
@@ -141,6 +149,16 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
         return px;
     }
 
+    public void drawBird() {
+       // canvas.clipRect(birdImgX, birdImgY, birdImgX +  birdImg.getWidth(), posY + oddNumH);
+       // canvas.drawBitmap(birdImg, birdImgX - 6 * oddNumW, posY, paint);
+        canvas.restore();
+        canvas.save();
+        canvas.clipRect(birdImgX, birdImgY, birdImgX + birdImg.getWidth(), birdImgY + birdImg.getHeight() / 2);
+        canvas.drawBitmap(birdImg, birdImgX, birdImgY - birdImg.getHeight() / 2, paint);
+
+    }
+
     public void myDraw() {
         try {
             canvas = sfh.lockCanvas();
@@ -174,8 +192,13 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 }
 
                 //bird
-                canvas.drawCircle(bird[0], bird[1], bird_width, paint);
+                //canvas.drawCircle(bird[0], bird[1], bird_width, paint);
+               birdImgX=bird[0];
+                birdImgY=bird[1];
 
+                birdImg= BitmapFactory.decodeResource(getResources(), R.drawable.bird);
+                canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
+                //drawBird();
                 //level
                 canvas.drawText(String.valueOf(level_value), level[0], level[1], paint);
 
@@ -189,6 +212,54 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 sfh.unlockCanvasAndPost(canvas);
         }
     }
+
+     /*---------------------------------
+     * 绘制图片
+     * @param       x屏幕上的x坐标
+     * @param       y屏幕上的y坐标
+     * @param       w要绘制的图片的宽度
+     * @param       h要绘制的图片的高度
+     * @param       bx图片上的x坐标
+     * @param       by图片上的y坐标
+     *
+     * @return      null
+     ------------------------------------*/
+
+    public static void drawImage(Canvas canvas, Bitmap blt, int x, int y,
+                                 int w, int h, int bx, int by) {
+        Rect src = new Rect();// 图片 >>原矩形
+        Rect dst = new Rect();// 屏幕 >>目标矩形
+
+        src.left = bx;
+        src.top = by;
+        src.right = bx + w;
+        src.bottom = by + h;
+
+        dst.left = x;
+        dst.top = y;
+        dst.right = x + w;
+        dst.bottom = y + h;
+        // 画出指定的位图，位图将自动--》缩放/自动转换，以填补目标矩形
+        // 这个方法的意思就像 将一个位图按照需求重画一遍，画后的位图就是我们需要的了
+        canvas.drawBitmap(blt, null, dst, null);
+        src = null;
+        dst = null;
+    }
+
+    /**
+     * 绘制一个Bitmap
+     *
+     * @param canvas 画布
+     * @param bitmap 图片
+     * @param x 屏幕上的x坐标
+     * @param y 屏幕上的y坐标
+     */
+
+    public static void drawImage(Canvas canvas, Bitmap bitmap, int x, int y) {
+        // 绘制图像 将bitmap对象显示在坐标 x,y上
+        canvas.drawBitmap(bitmap, x, y, null);
+    }
+
 
     public void up() {
         // bird[1] += bird_vUp;
