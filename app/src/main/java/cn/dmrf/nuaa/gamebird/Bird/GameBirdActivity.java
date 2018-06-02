@@ -41,12 +41,12 @@ public class GameBirdActivity extends Activity {
                     break;
                 case 1:
                     //updatestate(msg.obj.toString(), 0);
-                    Log.i("gesture_ids",msg.obj.toString());
+                    Log.e("gesture_ids",msg.obj.toString());
                     //msg.obj.toString()
                     break;
                 case 2:
                     updatestate(msg.obj.toString(), 1);
-                    Log.i("gesture_ids",msg.obj.toString());
+                   // Log.i("gesture_ids",msg.obj.toString());
                     //msg.obj.toString()
                     break;
             }

@@ -35,7 +35,6 @@ public class LoadingActivity extends Activity {
     private TextView tv2;
 
 
-
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         //设置圆环角度
@@ -44,6 +43,7 @@ public class LoadingActivity extends Activity {
             switch (msg.what) {
                 case 1:
                     tv1.setText(msg.obj.toString());
+                    Log.i("gesture_dis", msg.obj.toString());
                     break;
                 case 2:
                     tv2.setText(msg.obj.toString());
@@ -65,10 +65,16 @@ public class LoadingActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //setContentView(R.layout.loading);
-        setContentView(R.layout.gesture_test_layout);
-        GestureTest();
-/*
+
+
+        //GestureTest();
+        TaiChi();
+
+
+    }
+
+    private void TaiChi() {
+        setContentView(R.layout.loading);
         final TextView gameStart = (TextView) findViewById(R.id.game_start);
 
         AdView adView = (AdView) findViewById(R.id.adView);
@@ -124,10 +130,8 @@ public class LoadingActivity extends Activity {
 
                 finish();
             }
-        });*/
-
+        });
     }
-
 
     private int[] getSettingData() {
 
@@ -159,11 +163,12 @@ public class LoadingActivity extends Activity {
 
 
     private void GestureTest() {
+        setContentView(R.layout.gesture_test_layout);
         gestureUtil = new GestureUtil(mHandler);
-        btn_play=findViewById(R.id.btnplayrecord);
-        btn_stop=findViewById(R.id.btnstoprecord);
-        tv1=findViewById(R.id.textView1);
-        tv2=findViewById(R.id.textView2);
+        btn_play = findViewById(R.id.btnplayrecord);
+        btn_stop = findViewById(R.id.btnstoprecord);
+        tv1 = findViewById(R.id.textView1);
+        tv2 = findViewById(R.id.textView2);
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
