@@ -118,40 +118,8 @@ private GlobalBean globalBean;
         setContentView(R.layout.loading);
         final TextView gameStart = (TextView) findViewById(R.id.game_start);
 
-        AdView adView = (AdView) findViewById(R.id.adView);
 
 
-        adView.setAdListener(new AdListener() {
-
-            @Override
-            public void onReceiveAd(Ad arg0) {
-                gameStart.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onPresentScreen(Ad arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onLeaveApplication(Ad arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onFailedToReceiveAd(Ad arg0, ErrorCode arg1) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onDismissScreen(Ad arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
 
         View gameMessage = findViewById(R.id.GameMessage);
 

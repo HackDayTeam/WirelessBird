@@ -43,7 +43,7 @@ public class SignalDetect {
                 result = 0;
 //                return 0;
             } else {
-                Toast.makeText(c, "Success!", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(c, "Success!", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "success.");
 //                return 1;
 

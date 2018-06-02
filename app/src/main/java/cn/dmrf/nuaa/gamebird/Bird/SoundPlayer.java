@@ -30,7 +30,7 @@ public class SoundPlayer {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void playSound() {
 
-        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
+       // mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
     }
 
     public void stopSound(){

@@ -3,10 +3,11 @@
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
-	android:background="@drawable/x"
+	android:background="@drawable/backpic"
     android:orientation="vertical">
 
 		<LinearLayout android:id="@+id/game_view"
+			android:background="@drawable/backpic"
 	        android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"

@@ -16,7 +16,7 @@ static void ifft(const creal_T x[64], creal_T y[64]);
 // Function Definitions
 
 //
-// Arguments    : const double x[64]
+// Arguments    : const double backpic[64]
 //                double y[64]
 // Return Type  : void
 //
@@ -29,7 +29,7 @@ static void b_abs(const double x[64], double y[64])
 }
 
 //
-// Arguments    : const creal_T x[64]
+// Arguments    : const creal_T backpic[64]
 //                creal_T y[64]
 // Return Type  : void
 //

@@ -85,6 +85,10 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     private float birdImgX;
     private float birdImgY;
 
+    private Bitmap backImg;
+    private float backImgX;
+    private float backImgY;
+
     private int speed_wall=50;
 
     private SoundPlayer soundPlayer;
@@ -105,10 +109,10 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
         sfh.addCallback(this);
         paint = new Paint();
 
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLUE);
         paint.setAntiAlias(true);
         paint.setTextSize(50);
-        paint.setStyle(Style.STROKE); //空心
+        paint.setStyle(Style.FILL); //实心
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.soundPlayer=soundPlayer;
@@ -175,6 +179,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     public void drawBird() {
        // canvas.clipRect(birdImgX, birdImgY, birdImgX +  birdImg.getWidth(), posY + oddNumH);
        // canvas.drawBitmap(birdImg, birdImgX - 6 * oddNumW, posY, paint);
+        birdImg=BitmapFactory.decodeResource(getResources(),R.drawable.bird);
         canvas.restore();
         canvas.save();
         canvas.clipRect(birdImgX, birdImgY, birdImgX + birdImg.getWidth(), birdImgY + birdImg.getHeight() / 2);
@@ -182,13 +187,25 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 
     }
 
+    public void drawBack() {
+        canvas.restore();
+        canvas.save();
+        backImg=BitmapFactory.decodeResource(getResources(),R.drawable.backpic);
+        backImgX=screenW/2;
+        backImgY=screenH/2;
+        canvas.clipRect(backImgX, backImgY, backImgX + backImg.getWidth(), backImgY + backImg.getHeight() / 2);
+        canvas.drawBitmap(backImg, backImgX, backImgY - backImg.getHeight() / 2, paint);
+
+    }
     public void myDraw() {
         try {
             canvas = sfh.lockCanvas();
             if (canvas != null) {
+                //drawBack();
                 //clear
-                canvas.drawColor(Color.BLACK);
-                //background
+                canvas.drawColor(Color.WHITE);
+
+               // background
                 int floor_start = floor[0];
                 while (floor_start < screenW) {
                     canvas.drawLine(floor_start, floor[1], floor_start + floor_width, floor[1], paint);
@@ -215,17 +232,16 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 }
 
                 //bird
-                canvas.drawCircle(bird[0], bird[1], bird_width, paint);
-//                birdImgX=bird[0];
-//                birdImgY=bird[1];
-//
-//                birdImg= BitmapFactory.decodeResource(getResources(), R.drawable.bird);
-//                canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
-//                //drawBird();
+                //canvas.drawCircle(bird[0], bird[1], bird_width, paint);
+               birdImgX=bird[0];
+               birdImgY=bird[1];
+               birdImg= BitmapFactory.decodeResource(getResources(), R.drawable.bir);
+               canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
+//            drawBird();
 //                //level
              //canvas.drawText(String.valueOf(GlobalBean.res), level[0], level[1], paint);
-                canvas.drawText(String.valueOf(LoadingActivity.attention), level[0], level[1], paint);
-                canvas.drawText(String.valueOf(soundPlayer.getSpeed()), level[0], level[1]+50, paint);
+                canvas.drawText("gesture result:"+String.valueOf(LoadingActivity.attention), level[0]-200, level[1]-50, paint);
+                canvas.drawText("mind attention:"+String.valueOf(soundPlayer.getSpeed()), level[0]-200, level[1], paint);
 
                 //canvas.drawText(String.valueOf(GameBirdActivity.predis1), level[0], level[1], paint);
 
@@ -281,7 +297,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
      */
 
     public static void drawImage(Canvas canvas, Bitmap bitmap, int x, int y) {
-        // 绘制图像 将bitmap对象显示在坐标 x,y上
+        // 绘制图像 将bitmap对象显示在坐标 backpic,y上
         canvas.drawBitmap(bitmap, x, y, null);
     }
 
@@ -293,13 +309,8 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
         int i=count;
         if(walls.size()!=0) {
             int[] wall = walls.get(i++);
-           // if(bird[0]>wall[0]-wall_w/2&&bird[0]<wall[0]+3*wall_w/2) {
-                speed_wall=0;
-                for (int a = 0; a < 3; a++)
-                    bird[1] = wall[1];
-            //}
-           // else
-              //  bird[i] += bird_vUp;
+            speed_wall=0;
+            for (int a = 0; a < 3; a++) bird[1] = wall[1];
         }
         speed_wall=temp;
 
