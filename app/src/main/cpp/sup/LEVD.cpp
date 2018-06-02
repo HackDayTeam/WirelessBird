@@ -51,7 +51,7 @@ bool LEVD::levd(double *in) {
     {
         first = false;
         last = new double[IQ_Length];
-        memcpy(last,in,IQ_Length);
+        memcpy(last,in,IQ_Length*sizeof(double));
         if(levd_SI!=NULL) {
             delete (levd_SI);
             levd_SI = NULL;

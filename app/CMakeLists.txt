@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
-             native-lib
+             signalprocess
 
              # Sets the library as a shared library.
              SHARED
@@ -18,7 +18,7 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              # Associated headers in the same location as their source
              # file are automatically included.
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/signalprocess.cpp )
 
 add_library( MyCic
              SHARED
@@ -86,9 +86,11 @@ add_library( LEVD
 add_library( Peak
              SHARED
              src/main/cpp/sup/Peak.cpp )
+
 add_library( support
              SHARED
              src/main/cpp/sup/support.cpp )
+
 
 
 
@@ -135,6 +137,7 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib}
                        rtGetNaN
                        rtGetInf )
+
 target_link_libraries( # Specifies the target library.
                        MyCic_initialize
 
@@ -178,6 +181,10 @@ target_link_libraries( # Specifies the target library.
                        rtGetNaN3
                        rtGetInf3)
 
+
+
+
+
 target_link_libraries( # Specifies the target library.
                        ADist
 
@@ -185,6 +192,7 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib}
                        rt_nonfinite3)
+
 
 target_link_libraries( # Specifies the target library.
                        support
@@ -198,11 +206,12 @@ target_link_libraries( # Specifies the target library.
                        MyCic)
 
 target_link_libraries( # Specifies the target library.
-                       native-lib
+                       signalprocess
 
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib}
                        MyCic
                        ADist
-                       support)
+                       support
+                       )

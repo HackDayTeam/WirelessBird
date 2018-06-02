@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.ads.Ad;
@@ -22,14 +23,16 @@ import com.google.ads.AdView;
 import com.google.ads.AdRequest.ErrorCode;
 
 
-import cn.dmrf.nuaa.gamebird.Gesture.GestureUtil;
+import java.io.IOException;
+
 import cn.dmrf.nuaa.gamebird.Gesture.GestureWindow;
+import cn.dmrf.nuaa.gamebird.Gesture.GlobalBean;
+import cn.dmrf.nuaa.gamebird.Gesture.TensorFlowUtil;
 import cn.dmrf.nuaa.gamebird.Gesture.VerifyPermission;
 import cn.dmrf.nuaa.gamebird.R;
 
 public class LoadingActivity extends Activity {
 
-    private GestureUtil gestureUtil;
     private Button btn_play;
     private Button btn_stop;
     private TextView tv1;
@@ -37,7 +40,7 @@ public class LoadingActivity extends Activity {
     private int flag_num=0;
     public static double predis1 = 0.0;
     private GestureWindow gestureWindow;
-
+private GlobalBean globalBean;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -109,6 +112,15 @@ public class LoadingActivity extends Activity {
         final TextView gameStart = (TextView) findViewById(R.id.game_start);
 
         AdView adView = (AdView) findViewById(R.id.adView);
+        globalBean=new GlobalBean(LoadingActivity.this);
+        globalBean.tensorFlowUtil=new TensorFlowUtil(getAssets(),"abc_gesture_cnn.pb");
+
+        try {
+            globalBean.Init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         adView.setAdListener(new AdListener() {
 
             @Override
@@ -197,25 +209,18 @@ public class LoadingActivity extends Activity {
 
 
         setContentView(R.layout.gesture_test_layout);
-        gestureUtil = new GestureUtil(mHandler);
-        btn_play = findViewById(R.id.btnplayrecord);
-        btn_stop = findViewById(R.id.btnstoprecord);
-        tv1 = findViewById(R.id.textView1);
-        tv2 = findViewById(R.id.textView2);
-        btn_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gestureUtil.Play();
-            }
-        });
-
-
-        btn_stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gestureUtil.Stop();
-            }
-        });
+        globalBean=new GlobalBean(LoadingActivity.this);
+        globalBean.btnPlayRecord = (Button) findViewById(R.id.btnplayrecord);
+        globalBean.btnStopRecord = (Button) findViewById(R.id.btnstoprecord);
+        globalBean.tvDist = (TextView) findViewById(R.id.textView1);
+        globalBean.tvDist2 = (TextView) findViewById(R.id.textView2);
+        globalBean.flag_small = (ImageView) findViewById(R.id.flag_small);
+        globalBean.tensorFlowUtil=new TensorFlowUtil(getAssets(),"abc_gesture_cnn.pb");
+        try {
+            globalBean.Init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

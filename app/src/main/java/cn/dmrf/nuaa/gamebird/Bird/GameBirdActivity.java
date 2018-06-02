@@ -14,16 +14,17 @@ import android.widget.LinearLayout;
 
 import java.io.IOException;
 
-import cn.dmrf.nuaa.gamebird.Gesture.GestureUtil;
+import cn.dmrf.nuaa.gamebird.Gesture.GlobalBean;
 import cn.dmrf.nuaa.gamebird.R;
 
 public class GameBirdActivity extends Activity {
     public static GameBirdActivity instance;
     private LinearLayout gameView;
-    private GestureUtil gestureUtil;
     public static double predis1 = 0.0;
     public static double predis2 = 0.0;
     private GameBirdSurfaceView gameBirdSurfaceView;
+    private GlobalBean globalBean;
+
 
 
     @SuppressLint("HandlerLeak")
@@ -34,21 +35,12 @@ public class GameBirdActivity extends Activity {
             switch (msg.what) {
                 case 0:
                     if (msg.obj.toString().equals("start")) {
-                        gestureUtil.Play();
+                        globalBean.PlayVoi();
                     } else if (msg.obj.toString().equals("stop")) {
-                        gestureUtil.Stop();
+                        globalBean.StopVoi();
                     }
                     break;
-                case 1:
-                    updatestate(msg.obj.toString(), 0);
-                    Log.e("gesture_ids",msg.obj.toString());
-                    //msg.obj.toString()
-                    break;
-                case 2:
-                    updatestate(msg.obj.toString(), 1);
-                   // Log.i("gesture_ids",msg.obj.toString());
-                    //msg.obj.toString()
-                    break;
+
             }
         }
     };
@@ -89,11 +81,11 @@ public class GameBirdActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.content_view);
-        gestureUtil = new GestureUtil(mHandler);
 
         //game
         gameView = (LinearLayout) this.findViewById(R.id.game_view);
         gameBirdSurfaceView = new GameBirdSurfaceView(this, mHandler);
+        globalBean.gameBirdSurfaceView=gameBirdSurfaceView;
         gameView.addView(gameBirdSurfaceView);
     }
 

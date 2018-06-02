@@ -1,45 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
+
+
 
 
     <Button
         android:id="@+id/btnplayrecord"
-        android:layout_width="242dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
-        android:text="play" />
+        android:layout_gravity="center"
+        android:alpha="0.5"
+        android:text="play"
+        android:textColor="#008000"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/btnstoprecord"
-        android:layout_width="242dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text="stop" />
+        android:layout_gravity="center"
+        android:alpha="0.5"
+        android:text="stop"
+        android:textColor="#008000"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/btnset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:alpha="0.5"
+        android:text="set"
+        android:textColor="#008000"
+        android:textSize="20dp" />
+
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/flag_small"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/flag_smile" />
+
 
     <TextView
+
         android:id="@+id/textView1"
-        android:layout_width="72dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.07"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="TextView" />
+        android:text="NULL"
+        />
+
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.07"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="TextView" />
+        android:text="NULL"
+        />
+
+
+    <TextView
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Copyright © 2018.04 NUAA_Geature"
+        android:textColor="#9370DB" />
 
 </LinearLayout>
