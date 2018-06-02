@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ads.Ad;
 import com.google.ads.AdListener;
@@ -29,6 +30,7 @@ import cn.dmrf.nuaa.gamebird.Gesture.GestureWindow;
 import cn.dmrf.nuaa.gamebird.Gesture.GlobalBean;
 import cn.dmrf.nuaa.gamebird.Gesture.TensorFlowUtil;
 import cn.dmrf.nuaa.gamebird.Gesture.VerifyPermission;
+import cn.dmrf.nuaa.gamebird.MindWave.SignalDetect;
 import cn.dmrf.nuaa.gamebird.R;
 
 public class LoadingActivity extends Activity {
@@ -41,6 +43,8 @@ public class LoadingActivity extends Activity {
     public static double predis1 = 0.0;
     private GestureWindow gestureWindow;
 private GlobalBean globalBean;
+
+
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -102,9 +106,8 @@ private GlobalBean globalBean;
         TaiChi();
 
 
+
     }
-
-
 
 
     private void TaiChi() {

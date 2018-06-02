@@ -38,6 +38,18 @@
         android:textSize="20dp" />
 
 
+    <Button
+        android:text="Test"
+        android:id="@+id/btn_attention"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_attention"
+        android:textColor="#000000"/>
+
+
     <ImageView
         android:visibility="gone"
         android:id="@+id/flag_small"
