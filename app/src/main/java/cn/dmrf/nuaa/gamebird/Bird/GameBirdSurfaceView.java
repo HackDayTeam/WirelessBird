@@ -17,8 +17,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -79,7 +81,9 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     private float birdImgX;
     private float birdImgY;
 
-    public GameBirdSurfaceView(Context context, Handler mHandler) {
+    private SoundPlayer soundPlayer;
+
+    public GameBirdSurfaceView(Context context, Handler mHandler, SoundPlayer soundPlayer) {
 
         super(context);
         this.mHandler = mHandler;
@@ -92,6 +96,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
         paint.setStyle(Style.STROKE); //空心
         setFocusable(true);
         setFocusableInTouchMode(true);
+        this.soundPlayer=soundPlayer;
 
         this.setKeepScreenOn(true);
     }
@@ -282,6 +287,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int i = 0;
@@ -296,6 +302,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                     mHandler.sendMessage(msg1);
 
                     gameState = GAMEING;
+                    soundPlayer.playSound();
                     //globalBean.BeginChangeWorld();
                     try {
                         Thread.sleep((long) (1000));
@@ -415,8 +422,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 //new wall
                 move_step += speed;
                 if (move_step > wall_step) {
-                    int[] wall = new int[]{screenW, (int) (Math.random() * (floor[1] - 2 * wall_h) + 0.5 * wall_h)};
-                    walls.add(wall);
+
                     move_step = 0;
                 }
                 break;
