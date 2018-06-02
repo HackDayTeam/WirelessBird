@@ -84,7 +84,6 @@ public class GlobalBean {
 
     public SignalProcess signalProcess;
 
-    private String[] codesstr = {"ncnntest", "static", "push left", "push right", "click", "flip", "grab", "release"};
 
     private int lstm_predict_count = 0;
 
@@ -168,6 +167,7 @@ public class GlobalBean {
 
         Log.e("TensorflowesturePredict", "end result:" + label+"-"+flagnum);
         flagnum++;
+        //tvDist.setText(label+"");
         if (label==1){
             gameBirdSurfaceView.up();
         }
@@ -209,9 +209,9 @@ public class GlobalBean {
                 recBufSize);//录音片段的长度，给的是minBufSize=recBufSize = 4400 * 2;
 
 
-        // btnStopRecord.setVisibility(View.GONE);
+//        btnStopRecord.setVisibility(View.GONE);
 
-       // InitListener();
+       //InitListener();
 
 
     }

@@ -25,6 +25,7 @@ public class GameBirdActivity extends Activity {
     public static double predis2 = 0.0;
     private GameBirdSurfaceView gameBirdSurfaceView;
     public GlobalBean globalBean;
+    private SoundPlayer soundPlayer;
 
 
 
@@ -93,10 +94,11 @@ public class GameBirdActivity extends Activity {
             e.printStackTrace();
         }
 
+        soundPlayer=new SoundPlayer(GameBirdActivity.this);
 
         //game
         gameView = (LinearLayout) this.findViewById(R.id.game_view);
-        gameBirdSurfaceView = new GameBirdSurfaceView(this, mHandler);
+        gameBirdSurfaceView = new GameBirdSurfaceView(this, mHandler,soundPlayer);
         globalBean.gameBirdSurfaceView=gameBirdSurfaceView;
         gameView.addView(gameBirdSurfaceView);
     }
