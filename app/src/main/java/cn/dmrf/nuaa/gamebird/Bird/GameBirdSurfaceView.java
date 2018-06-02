@@ -1,17 +1,22 @@
 package cn.dmrf.nuaa.gamebird.Bird;
 
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
+
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Picture;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+
 import android.os.Handler;
 import android.os.Message;
 import android.util.TypedValue;
@@ -20,6 +25,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
+
+import cn.dmrf.nuaa.gamebird.R;
 
 import cn.dmrf.nuaa.gamebird.R;
 
@@ -44,7 +52,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     private int[] floor = new int[2];
     private int floor_width = 15;
 
-    private int speed = 3;//左右速度（每次循环整个画面向左走speed个像素）
+    private int speed = 10;//左右速度（每次循环整个画面向左走speed个像素）
 
     private int[] level = new int[2];
     private int level_value = 0;
@@ -65,6 +73,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 
     private Handler mHandler;
 
+    private int count = 0;
 
     private Bitmap birdImg;
     private float birdImgX;
@@ -168,11 +177,11 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                     int[] wall = walls.get(i);
 
                     float[] pts = {
-                            wall[0], 0, wall[0], wall[1],
+                            //wall[0], 0, wall[0], wall[1],
                             wall[0], wall[1] + wall_h, wall[0], floor[1],
-                            wall[0] + wall_w, 0, wall[0] + wall_w, wall[1],
+                            //wall[0] + wall_w, 0, wall[0] + wall_w, wall[1],
                             wall[0] + wall_w, wall[1] + wall_h, wall[0] + wall_w, floor[1],
-                            wall[0], wall[1], wall[0] + wall_w, wall[1],
+                            //wall[0], wall[1], wall[0] + wall_w, wall[1],
                             wall[0], wall[1] + wall_h, wall[0] + wall_w, wall[1] + wall_h
                             //,wall[0],floor[1], wall[0]+wall_w, floor[1]
                     };
@@ -191,7 +200,9 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
                 //drawBird();
                 //level
-                canvas.drawText(String.valueOf(GameBirdActivity.predis1), level[0], level[1], paint);
+                canvas.drawText(String.valueOf(level_value), level[0], level[1], paint);
+
+                //canvas.drawText(String.valueOf(GameBirdActivity.predis1), level[0], level[1], paint);
 
             }
         } catch (Exception e) {
@@ -251,16 +262,29 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 
 
     public void up() {
-        bird[1] += bird_vUp;
+        // bird[1] += bird_vUp;
+
+        int i=count;
+        if(walls.size()!=0) {
+            int[] wall = walls.get(i++);
+            //if(bird[0]>wall[0]-wall_w/2&&bird[0]<wall[0]+3*wall_w/2) {
+                for (int a = 0; a < 3; a++)
+                    bird[1] = wall[1];
+            //}
+//            else
+//                bird[i] += bird_vUp;
+        }
+
     }
 
     public void down() {
-        bird[1] -= bird_vUp;
+        // bird[1] -= bird_vUp;
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
+        int i = 0;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
             switch (gameState) {
@@ -285,12 +309,14 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                     if (event.getX() < screenW / 2) {
                         bird[1] += bird_vUp;
                         //bird_v = bird_vUp;//点击左边上升
+
                     } else {
                         bird[1] -= bird_vUp;
                         //bird_v+=bird_a;//点击右边下降
                     }
 
                     break;
+
                 case GAME_OVER:
 
                     // globalBean.StopChangeWorld();
@@ -343,9 +369,10 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                     gameState = GAME_OVER;
                 }
                 //top
-//				if(bird[1]<=bird_width){
-//					bird[1]=bird_width;
-//				}
+                if (bird[1] <= bird_width) {
+                    bird[1] = bird_width;
+                    gameState = GAME_OVER;
+                }
 
                 //floor
                 if (floor[0] < -floor_width) {
@@ -357,18 +384,28 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 remove_walls.clear();
                 for (int i = 0; i < walls.size(); i++) {
                     int[] wall = walls.get(i);
-                    wall[0] -= speed;
-                    if (wall[0] < -wall_w) {
-                        remove_walls.add(wall);
-                    } else if (wall[0] - bird_width <= bird[0] && wall[0] + wall_w + bird_width >= bird[0]
-                            && (bird[1] <= wall[1] + bird_width || bird[1] >= wall[1] + wall_h - bird_width)) {
-                        gameState = GAME_OVER;
-                    }
+//                    if (bird[0] > wall[0] - 10 && bird[0] < wall[0] + wall_w + 10) {
+//
+//                        wall[0] -= speed * 2;
+//                    } else {
+                        bird[1] += speed;
+                        wall[0] -= speed;
 
-                    int pass = wall[0] + wall_w + bird_width - bird[0];
-                    if (pass < 0 && -pass <= speed) {
-                        level_value++;
-                    }
+
+                        if (wall[0] < -wall_w) {
+                            remove_walls.add(wall);
+                        } else if (wall[0] - bird_width <= bird[0] && wall[0] + wall_w + bird_width >= bird[0]
+                                && bird[1] >= wall[1] + wall_h - bird_width) {
+                            gameState = GAME_OVER;
+                        }
+
+                        int pass = wall[0] + wall_w + bird_width - bird[0];
+                        if (pass < 0 && -pass <= speed) {
+                            level_value++;
+
+
+                        }
+                    //}
                 }
                 //out of screen
                 if (remove_walls.size() > 0) {
