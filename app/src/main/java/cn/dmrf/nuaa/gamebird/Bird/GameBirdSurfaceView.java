@@ -187,7 +187,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                birdImgX=bird[0];
                 birdImgY=bird[1];
 
-                birdImg= BitmapFactory.decodeResource(getResources(), R.drawable.bird'n');
+                birdImg= BitmapFactory.decodeResource(getResources(), R.drawable.bird);
                 canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
                 //drawBird();
                 //level
