@@ -40,7 +40,7 @@ public class GameBirdActivity extends Activity {
                     }
                     break;
                 case 1:
-                    //updatestate(msg.obj.toString(), 0);
+                    updatestate(msg.obj.toString(), 0);
                     Log.e("gesture_ids",msg.obj.toString());
                     //msg.obj.toString()
                     break;

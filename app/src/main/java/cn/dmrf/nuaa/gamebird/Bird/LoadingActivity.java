@@ -23,6 +23,7 @@ import com.google.ads.AdRequest.ErrorCode;
 
 
 import cn.dmrf.nuaa.gamebird.Gesture.GestureUtil;
+import cn.dmrf.nuaa.gamebird.Gesture.GestureWindow;
 import cn.dmrf.nuaa.gamebird.Gesture.VerifyPermission;
 import cn.dmrf.nuaa.gamebird.R;
 
@@ -33,6 +34,9 @@ public class LoadingActivity extends Activity {
     private Button btn_stop;
     private TextView tv1;
     private TextView tv2;
+    private int flag_num=0;
+    public static double predis1 = 0.0;
+    private GestureWindow gestureWindow;
 
 
     @SuppressLint("HandlerLeak")
@@ -43,14 +47,37 @@ public class LoadingActivity extends Activity {
             switch (msg.what) {
                 case 1:
                     tv1.setText(msg.obj.toString());
-                    Log.i("gesture_dis", msg.obj.toString());
-                    break;
-                case 2:
-                    tv2.setText(msg.obj.toString());
-                    break;
+//                   if (gestureWindow.Judge(msg.obj.toString())){
+//                       tv1.setVisibility(View.VISIBLE);
+//                       tv1.setText(msg.obj.toString());
+//                       flag_num++;
+//                   }else {
+//                       //tv1.setVisibility(View.GONE);
+//                   }
             }
         }
     };
+
+
+    private void updatestate(String dis, int which) {
+        double now_dis = Double.valueOf(dis);
+
+        switch (which) {
+            case 0://L
+                if (now_dis - predis1 > 3) {
+                    tv1.setVisibility(View.VISIBLE);
+                   tv1.setText("TaiChi");
+
+                }else {
+                    tv1.setVisibility(View.GONE);
+                }
+                predis1 = now_dis;
+                break;
+            case 1://R
+
+                break;
+        }
+    }
 
 
     @Override
@@ -65,13 +92,17 @@ public class LoadingActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        gestureWindow=new GestureWindow(0.2f);
 
 
-        //GestureTest();
-        TaiChi();
+        GestureTest();
+        //TaiChi();
 
 
     }
+
+
+
 
     private void TaiChi() {
         setContentView(R.layout.loading);
@@ -163,6 +194,8 @@ public class LoadingActivity extends Activity {
 
 
     private void GestureTest() {
+
+
         setContentView(R.layout.gesture_test_layout);
         gestureUtil = new GestureUtil(mHandler);
         btn_play = findViewById(R.id.btnplayrecord);
