@@ -64,6 +64,8 @@ public class GlobalBean {
     public int is_in_count = -1;
     public int gesture_length = 1100;
 
+    public static int res=0;
+
     /*
     variable
      */
@@ -124,8 +126,13 @@ public class GlobalBean {
         int ks = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 550; j++) {
-                id[ks] = L_I[i].get(j).floatValue();
-                qd[ks] = L_Q[i].get(j).floatValue();
+                try {
+                    id[ks] = L_I[i].get(j).floatValue();
+                    qd[ks] = L_Q[i].get(j).floatValue();
+                }catch (Exception e){
+                    return;
+                }
+
                 ks++;
             }
         }
@@ -156,9 +163,10 @@ public class GlobalBean {
 
 
         int label = tensorFlowUtil.PredictCnnAbc(floatValues);
+        res=label;
 
 
-        Log.i("TensorflowesturePredict", "end result:" + label+"-"+flagnum);
+        Log.e("TensorflowesturePredict", "end result:" + label+"-"+flagnum);
         flagnum++;
         if (label==1){
             gameBirdSurfaceView.up();
