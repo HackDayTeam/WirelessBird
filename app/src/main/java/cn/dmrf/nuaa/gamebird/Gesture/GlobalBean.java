@@ -203,7 +203,7 @@ public class GlobalBean {
 
         // btnStopRecord.setVisibility(View.GONE);
 
-        InitListener();
+       // InitListener();
 
 
     }

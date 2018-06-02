@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import java.io.IOException;
 
 import cn.dmrf.nuaa.gamebird.Gesture.GlobalBean;
+import cn.dmrf.nuaa.gamebird.Gesture.TensorFlowUtil;
 import cn.dmrf.nuaa.gamebird.R;
 
 public class GameBirdActivity extends Activity {
@@ -23,7 +24,7 @@ public class GameBirdActivity extends Activity {
     public static double predis1 = 0.0;
     public static double predis2 = 0.0;
     private GameBirdSurfaceView gameBirdSurfaceView;
-    private GlobalBean globalBean;
+    public GlobalBean globalBean;
 
 
 
@@ -81,6 +82,17 @@ public class GameBirdActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.content_view);
+
+
+        globalBean=new GlobalBean(GameBirdActivity.this);
+        globalBean.tensorFlowUtil=new TensorFlowUtil(getAssets(),"abc_gesture_cnn.pb");
+
+        try {
+            globalBean.Init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         //game
         gameView = (LinearLayout) this.findViewById(R.id.game_view);

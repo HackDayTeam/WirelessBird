@@ -98,8 +98,8 @@ private GlobalBean globalBean;
         gestureWindow=new GestureWindow(0.2f);
 
 
-        GestureTest();
-        //TaiChi();
+        //GestureTest();
+        TaiChi();
 
 
     }
@@ -112,14 +112,7 @@ private GlobalBean globalBean;
         final TextView gameStart = (TextView) findViewById(R.id.game_start);
 
         AdView adView = (AdView) findViewById(R.id.adView);
-        globalBean=new GlobalBean(LoadingActivity.this);
-        globalBean.tensorFlowUtil=new TensorFlowUtil(getAssets(),"abc_gesture_cnn.pb");
 
-        try {
-            globalBean.Init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         adView.setAdListener(new AdListener() {
 
@@ -168,6 +161,7 @@ private GlobalBean globalBean;
 
                 Intent intent = new Intent(LoadingActivity.this, GameBirdActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 
                 startActivity(intent);
 
