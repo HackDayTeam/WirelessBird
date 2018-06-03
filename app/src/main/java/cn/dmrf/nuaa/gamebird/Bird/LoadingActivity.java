@@ -101,8 +101,15 @@ private GlobalBean globalBean;
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        status = sd.initDevice(LoadingActivity.this);
-        sd.connect();
+
+
+
+        //status = sd.initDevice(LoadingActivity.this);
+        //sd.connect();
+
+
+
+
         gestureWindow=new GestureWindow(0.2f);
 
 

@@ -89,20 +89,23 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     private float backImgX;
     private float backImgY;
 
-    private int speed_wall=50;
+    private int speed_wall = 50;
 
     private SoundPlayer soundPlayer;
 
     private Context context;
 
+    private void addspeed() {
+        speed_wall += 5;
+    }
+
     public GameBirdSurfaceView(Context context, Handler mHandler, SoundPlayer soundPlayer) {
 
 
         super(context);
-        this.context=context;
+        this.context = context;
 
         this.mHandler = mHandler;
-
 
 
         sfh = this.getHolder();
@@ -115,7 +118,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
         paint.setStyle(Style.FILL); //实心
         setFocusable(true);
         setFocusableInTouchMode(true);
-        this.soundPlayer=soundPlayer;
+        this.soundPlayer = soundPlayer;
 
         this.setKeepScreenOn(true);
     }
@@ -177,9 +180,9 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     }
 
     public void drawBird() {
-       // canvas.clipRect(birdImgX, birdImgY, birdImgX +  birdImg.getWidth(), posY + oddNumH);
-       // canvas.drawBitmap(birdImg, birdImgX - 6 * oddNumW, posY, paint);
-        birdImg=BitmapFactory.decodeResource(getResources(),R.drawable.bird);
+        // canvas.clipRect(birdImgX, birdImgY, birdImgX +  birdImg.getWidth(), posY + oddNumH);
+        // canvas.drawBitmap(birdImg, birdImgX - 6 * oddNumW, posY, paint);
+        birdImg = BitmapFactory.decodeResource(getResources(), R.drawable.bird);
         canvas.restore();
         canvas.save();
         canvas.clipRect(birdImgX, birdImgY, birdImgX + birdImg.getWidth(), birdImgY + birdImg.getHeight() / 2);
@@ -190,13 +193,14 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     public void drawBack() {
         canvas.restore();
         canvas.save();
-        backImg=BitmapFactory.decodeResource(getResources(),R.drawable.backpic);
-        backImgX=screenW/2;
-        backImgY=screenH/2;
+        backImg = BitmapFactory.decodeResource(getResources(), R.drawable.backpic);
+        backImgX = screenW / 2;
+        backImgY = screenH / 2;
         canvas.clipRect(backImgX, backImgY, backImgX + backImg.getWidth(), backImgY + backImg.getHeight() / 2);
         canvas.drawBitmap(backImg, backImgX, backImgY - backImg.getHeight() / 2, paint);
 
     }
+
     public void myDraw() {
         try {
             canvas = sfh.lockCanvas();
@@ -205,7 +209,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 //clear
                 canvas.drawColor(Color.WHITE);
 
-               // background
+                // background
                 int floor_start = floor[0];
                 while (floor_start < screenW) {
                     canvas.drawLine(floor_start, floor[1], floor_start + floor_width, floor[1], paint);
@@ -233,15 +237,15 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 
                 //bird
                 //canvas.drawCircle(bird[0], bird[1], bird_width, paint);
-               birdImgX=bird[0];
-               birdImgY=bird[1];
-               birdImg= BitmapFactory.decodeResource(getResources(), R.drawable.bir);
-               canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
+                birdImgX = bird[0];
+                birdImgY = bird[1];
+                birdImg = BitmapFactory.decodeResource(getResources(), R.drawable.bird);
+                canvas.drawBitmap(birdImg, birdImgX, birdImgY, paint);
 //            drawBird();
 //                //level
-             //canvas.drawText(String.valueOf(GlobalBean.res), level[0], level[1], paint);
-                canvas.drawText("gesture result:"+String.valueOf(LoadingActivity.attention), level[0]-200, level[1]-50, paint);
-                canvas.drawText("mind attention:"+String.valueOf(soundPlayer.getSpeed()), level[0]-200, level[1], paint);
+                //canvas.drawText(String.valueOf(GlobalBean.res), level[0], level[1], paint);
+                canvas.drawText("gesture result:" + String.valueOf(LoadingActivity.attention), level[0] - 200, level[1] - 50, paint);
+                canvas.drawText("mind attention:" + String.valueOf(soundPlayer.getSpeed()), level[0] - 200, level[1], paint);
 
                 //canvas.drawText(String.valueOf(GameBirdActivity.predis1), level[0], level[1], paint);
 
@@ -292,8 +296,8 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
      *
      * @param canvas 画布
      * @param bitmap 图片
-     * @param x 屏幕上的x坐标
-     * @param y 屏幕上的y坐标
+     * @param x      屏幕上的x坐标
+     * @param y      屏幕上的y坐标
      */
 
     public static void drawImage(Canvas canvas, Bitmap bitmap, int x, int y) {
@@ -305,14 +309,14 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
     public void up() {
         // bird[1] += bird_vUp;
 
-        int temp=speed_wall;
-        int i=count;
-        if(walls.size()!=0) {
+        int temp = speed_wall;
+        int i = count;
+        if (walls.size() != 0) {
             int[] wall = walls.get(i++);
-            speed_wall=0;
+            speed_wall = 0;
             for (int a = 0; a < 3; a++) bird[1] = wall[1];
         }
-        speed_wall=temp;
+        speed_wall = temp;
 
     }
 
@@ -412,8 +416,8 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 switch (LoadingActivity.status) {
                     case 1:
                         LoadingActivity.attention = LoadingActivity.sd.getAttention();
-                        if (LoadingActivity.attention>40){
-                            soundPlayer.setSpeed((float) (LoadingActivity.attention*0.02));
+                        if (LoadingActivity.attention > 40) {
+                            soundPlayer.setSpeed((float) (LoadingActivity.attention * 0.02));
                         }
 
                         break;
@@ -434,6 +438,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 //bird_v+=bird_a;//
                 //bird[1] += bird_v;//小鸟上升bird_v像素，bird_v可正可负，如果是正的则小鸟向上走，否则小鸟向下走
 
+
                 if (bird[1] > floor[1] - bird_width) {
                     bird[1] = floor[1] - bird_width;
                     gameState = GAME_OVER;
@@ -441,7 +446,7 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
                 //top
                 if (bird[1] <= bird_width) {
                     bird[1] = bird_width;
-                  //  gameState = GAME_OVER;
+                    //  gameState = GAME_OVER;
                 }
 
                 //floor
@@ -458,29 +463,30 @@ public class GameBirdSurfaceView extends SurfaceView implements Callback, Runnab
 //
 //                        wall[0] -= speed * 2;
 //                    } else {
-                        bird[1] += 4;
-                        wall[0] -= speed;
+                    bird[1] += 4;
+                    wall[0] -= speed;
+                    int a = (int) (1.5*dp2px(45));
 
 
-                        if (wall[0] < -wall_w) {
-                            remove_walls.add(wall);
-                        } else if (wall[0] - bird_width <= bird[0] && wall[0] + wall_w + bird_width >= bird[0]
-                                && bird[1] >= wall[1] + wall_h - bird_width) {
-                            gameState = GAME_OVER;
-                            soundPlayer.stopSound();
-                            Message msg1 = new Message();
-                            msg1.what = 0;
-                            msg1.obj = "stop";
-                            mHandler.sendMessage(msg1);
+                    if (wall[0] < -wall_w) {
+                        remove_walls.add(wall);
+                    } else if (wall[0] - bird_width <= bird[0] && wall[0] + wall_w + bird_width >= bird[0]
+                            && bird[1] >= wall[1] + wall_h - bird_width) {
+                        gameState = GAME_OVER;
+                        soundPlayer.stopSound();
+                        Message msg1 = new Message();
+                        msg1.what = 0;
+                        msg1.obj = "stop";
+                        mHandler.sendMessage(msg1);
 
-                        }
+                    }
 
-                        int pass = wall[0] + wall_w + bird_width - bird[0];
-                        if (pass < 0 && -pass <= speed) {
-                            level_value++;
+                    int pass = wall[0] + wall_w + bird_width - bird[0];
+                    if (pass < 0 && -pass <= speed) {
+                        level_value++;
 
 
-                        }
+                    }
                     //}
                 }
                 //out of screen
